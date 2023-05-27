@@ -24,6 +24,7 @@ smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
 print(X_train_resampled)
 print(y_train_resampled)
+
 # Initialize the random forest classifier as the base estimator
 base_estimator = RandomForestClassifier()
 
@@ -48,3 +49,39 @@ print(classification_report(y_test, y_pred))
 # Make sure you have the imbalanced-learn library installed (pip install imbalanced-learn) to use the SMOTE class.
 #
 # Adjust the code according to your specific dataset and problem requirements, including any necessary preprocessing steps or modifications.
+
+
+# Get the feature importances from the Random Forest classifier
+predictor_names = ["age", "income", "education"]
+
+
+feature_importances = boosted_rf.estimators_[0].feature_importances_
+
+# Create a dictionary to store the predictor names and their importances
+predictor_importances = {predictor_names[i]: importance for i, importance in enumerate(feature_importances)}
+
+# Print the significant predictors and their coefficients
+print("Significant Predictors:")
+for predictor, importance in predictor_importances.items():
+    print(f"{predictor}: {importance}")
+
+# Sort the predictors based on their importance (in descending order)
+sorted_predictors = sorted(predictor_importances, key=predictor_importances.get, reverse=True)
+
+# Determine the strong predictors (top n predictors with highest importances)
+n = 5  # Number of top predictors to consider
+strong_predictors = sorted_predictors[:n]
+
+# Print the strong predictors
+print("\nStrong Predictors:")
+for predictor in strong_predictors:
+    importance = predictor_importances[predictor]
+    print(f"{predictor}: {importance}")
+
+# In the above code, the feature importances obtained from the Random Forest base estimator are stored in the feature_importances variable. These importances are associated with the corresponding predictor names using a dictionary called predictor_importances.
+#
+# The code then proceeds to print all the significant predictors along with their coefficients. Next, the predictors are sorted based on their importance in descending order. The variable n represents the number of top predictors to consider as strong predictors. In this case, it is set to 5.
+#
+# The top n predictors with the highest importances are stored in the strong_predictors list. Finally, the code prints the strong predictors along with their respective coefficients.
+#
+# You can modify the code as per your dataset and requirements. Remember to replace X_train and y_train with your actual training data, and predictor_names with your list of predictor names or column labels.
