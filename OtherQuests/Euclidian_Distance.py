@@ -17,11 +17,13 @@ y = [1,1,1,2,2,2,0,0,0,0,0,0,0,0,0,0]
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
+print(X_train)
+print(y_train)
 # Apply SMOTE to oversample the small classes
 smote = SMOTE(random_state=42)
 X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
-
+print(X_train_resampled)
+print(y_train_resampled)
 # Initialize the random forest classifier as the base estimator
 base_estimator = RandomForestClassifier()
 
